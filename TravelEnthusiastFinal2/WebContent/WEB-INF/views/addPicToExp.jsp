@@ -16,6 +16,7 @@ display: none;
 </head>
 <body>
 
+
 <div>
 	<%@include file="header.jsp" %>
 </div>
@@ -30,8 +31,8 @@ display: none;
 			<td><input type="text" name="title" maxlength="100" placeholder="100 character maximum" autofocus required/></td>
 		</tr>
 		<tr>
-			<td>Enter Image location :</td>
-			<td><input type="text" name="image" placeholder="location of image" required/></td>
+			<td>Enter Image source location :</td>
+			<td><input type="text" name="image" placeholder="source location" required/></td>
 		</tr>
 		
 		<tr>
@@ -79,7 +80,8 @@ display: none;
 
 
 
-
-<p>${expPrimaryID}</p>
+<%-- <%String primaryId = session.getAttribute("expPriID").toString(); %>
+<%=primaryId %>
+<p name ="expPrimaryID">${expPrimaryID}</p> --%>
 </body>
 </html>

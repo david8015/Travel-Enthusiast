@@ -62,6 +62,8 @@ public class PictureDAO {
 		int a =0;
 		// set connection to null (no connection)
 				Connection conn = null;
+				
+				System.out.println("test 1");
 				try {
 					// initiate oracle connection
 					conn = MYSQLConnection.getConnection();
@@ -76,9 +78,14 @@ public class PictureDAO {
 					stmt.setString(3, u.getPicture_of());
 					stmt.setString(4, u.getPhoto_date());
 					stmt.setBoolean(5, u.isLandmark());
-					stmt.setInt(6, b);
+					stmt.setString(6, u.getDescription());
+					stmt.setInt(7, b);
 
 					a = stmt.executeUpdate();
+					
+					System.out.println("test 2");
+					
+					
 //					conn.commit();
 					// capture exceptions
 				} catch (Exception e) {

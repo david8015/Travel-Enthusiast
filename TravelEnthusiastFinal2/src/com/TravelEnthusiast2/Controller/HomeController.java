@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -365,7 +368,8 @@ public class HomeController {
 			mav.addObject("userInfo", user);
 			return mav;
 		}
-		return null;
+		return new ModelAndView ("welcome");
+		
 	}
 	
 	@RequestMapping(value = "/editCountry", method = RequestMethod.POST)
@@ -400,8 +404,27 @@ public class HomeController {
 	}
 	
 	
+	
+	
+	
+	
+//	                            WORKS DO NOT DELETE
+//	@RequestMapping(value = "/inputExperience", method = RequestMethod.POST)
+//	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e) {
+//		UserDAO a = new UserDAO();
+//		User user = new User();
+//		user = a.getUserByUserName(u.getUserName());
+//		
+//		ExperienceDAO expDAO = new ExperienceDAO();
+//		int b = expDAO.addExperience(e, user.getUserID());
+//	
+//			ModelAndView mav = new ModelAndView("addPicToExp");
+//			mav.addObject("expPrimaryID", b);
+//			return mav;
+//	}
+	
 	@RequestMapping(value = "/inputExperience", method = RequestMethod.POST)
-	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e) {
+	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e, HttpServletRequest request) {
 		UserDAO a = new UserDAO();
 		User user = new User();
 		user = a.getUserByUserName(u.getUserName());
@@ -410,22 +433,33 @@ public class HomeController {
 		int b = expDAO.addExperience(e, user.getUserID());
 	
 			ModelAndView mav = new ModelAndView("addPicToExp");
+			HttpSession se = request.getSession();
+			se.setAttribute("expPriID", b);
 			mav.addObject("expPrimaryID", b);
 			return mav;
 	}
 	
 	
-	
-	
-	
+	 
 	
 	@RequestMapping(value = "/inputPictureInfo", method = RequestMethod.POST)
-	public ModelAndView inputPictureInfo(@RequestParam("expPrimaryID") int b, @ModelAttribute("userkey") User u, @ModelAttribute("pic") Picture a) {
-	
+	public ModelAndView inputPictureInfo(HttpServletRequest request, @ModelAttribute("userkey") User u, @ModelAttribute("pic") Picture a) {
+		PictureDAO d = new PictureDAO();
 		
-		ModelAndView mav = new ModelAndView("addPicToExp");
-		mav.addObject("b", b);
-		return mav;	
+		HttpSession se = request.getSession();
+		int b = (int) se.getAttribute("expPriID");
+		
+		System.out.println("request param from session " + b);
+		
+		d.AddPicture(a, b);
+
+		ExpDataDAO getList = new ExpDataDAO();
+		List<ExpData> expList = new ArrayList<ExpData>();
+		expList = getList.getAllExperience();
+
+		ModelAndView mav = new ModelAndView("MainPage");
+		mav.addObject("expList", expList);
+		return mav;
 	}
 	
 	
@@ -443,6 +477,14 @@ public class HomeController {
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public ModelAndView about(@ModelAttribute("userkey") User u) {
 		ModelAndView mav = new ModelAndView("aboutUsPage");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logout(@ModelAttribute("userkey") User u, HttpServletRequest request) {
+		HttpSession se = request.getSession();
+		se.invalidate();
+		ModelAndView mav = new ModelAndView("welcome");
 		return mav;
 	}
 

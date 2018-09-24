@@ -36,16 +36,23 @@ public class PicturesDAOTest {
 	
 	/**
 	 * Test method for {@link com.TravelEnthusiast2.DAO.PicturesDAO#getAllPictures()}.
-	 * @param Result - test size of picture list is greater than 0
+	 * @param Result - test executeUpdate returns that a row was updated
 	 */
 	@Test
 	public final void AddPicture(Picture u, int b) {
 		PictureDAO a = new PictureDAO();
-		List<Picture> result = new ArrayList<Picture>();
+		Picture c = new Picture();
+		c.setTitle("Test");
+		c.setLandmark(true);
+		c.setPicture_of("building");
+		c.setPhoto_date("2000-01-01");
+		c.setImage("file:///Users/david/eclipse-workspace/TravelEnthusiastFinal2/src/static/images/PleasentBeach.jpg");
 		
-		result = a.getAllPictures();
+		 b = 10;
 		
-		assertTrue(result.size() > 0);
+		int result = a.AddPicture(c, b);
+		
+		assertTrue(result > 0);
 		
 	}
 
