@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.TravelEnthusiast2.Bean.Experience;
+import com.TravelEnthusiast2.Bean.Picture;
 import com.TravelEnthusiast2.DAO.ExperienceDAO;
 
 /**
@@ -62,6 +63,7 @@ public class ExperienceDAOTest {
 	public final void testAddExperience() throws SQLException {
 		ExperienceDAO a = new ExperienceDAO();
 		Experience x = new Experience();
+		Picture p = new Picture();
 		int result = 0;
 		
 		x.setDescription("test description");
@@ -69,7 +71,13 @@ public class ExperienceDAOTest {
 		x.setExperiencetype("beach - relaxation");
 		x.setTitle("testing title 1");
 		
-		result = a.addExperience(x, 1);
+		p.setPictureTitle("test");
+		p.setLandmark(true);
+		p.setPhoto_date("2018-05-18");
+		p.setPicture_of("buildings");
+		p.setImage("https://res.cloudinary.com/david8015/image/upload/v1537531845/NYC-Skyline.jpg");
+		
+		result = a.addExperience(x, 1, p);
 		assertTrue(result > 0);
 	}
 

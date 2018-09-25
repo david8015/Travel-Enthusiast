@@ -114,13 +114,14 @@ public class ExperienceDAO {
 
 	}
 	
-	public int addExperience(Experience x, int userID) {
+	public int addExperience(Experience x, int userID, Picture u) {
+		int c = 0;
 		// set connection to null (no connection)
 		Connection conn = null;
 //		ResultSet generatedExpPriKey = null;
 		
 //		List<Integer> a = new ArrayList<Integer>();
-		int a = 0;
+		int b = 0;
 
 		try {
 			// initiate oracle connection
@@ -143,7 +144,7 @@ public class ExperienceDAO {
 			ResultSet rs = stmt.getGeneratedKeys();
 	            if(rs != null && rs.next()){
 //	                System.out.println("Generated Experience Id: "+ rs.getInt(1));
-	                a = rs.getInt(1);
+	                b = rs.getInt(1);
 	            }
 			// capture exceptions
 		} catch (Exception e) {
@@ -159,6 +160,43 @@ public class ExperienceDAO {
 			}
 			
 		}
-		return a;
+		
+		try {
+			// initiate oracle connection
+			conn = MYSQLConnection.getConnection();
+			// query the database
+			String sql = "insert into picture (title, image, picture_of, photo_date, landmark, description, experience_id) values "
+					+ "(?,?,?,?,?,?,?)";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, u.getPictureTitle());
+			stmt.setString(2, u.getImage());
+			stmt.setString(3, u.getPicture_of());
+			stmt.setString(4, u.getPhoto_date());
+			stmt.setBoolean(5, u.isLandmark());
+			stmt.setString(6, u.getPictureDescription());
+			stmt.setInt(7, b);
+
+			c = stmt.executeUpdate();
+
+			
+			
+//			conn.commit();
+			// capture exceptions
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// close connection
+			if (!conn.equals(null)) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		return c;
 	}
 }

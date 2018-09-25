@@ -47,16 +47,14 @@ float: right;
  
  <h2 style = "margin-top: 35px">My Experience List: <a href="addExperience"> Add An Experience</a></h2>
  
- <form action="AddImage" method="post">
+ <form action="addEventPage" method="post">
 <c:forEach items="${userExpList}" var="s">
 	<div style = "border: 1px solid black; margin-top: 30px;">
 	
 	             <!--Passing experience ID to be included with picture input  -->
-          <h3>Title: ${s.title}<a style = "margin: 10px;" href="addImage?experienceID={s.id}">Edit Experience</a></h3>
+          <h3>Title: ${s.title}<a style = "margin: 10px;" href="addEventPage?experienceID=${s.id}">Add event to Experience</a></h3>
           <p>
             <h3>Date: ${s.experiencedate}</h3>
-
-<%--             <h3>${s.id}</h3> --%>
           </p>
           <p>Experience: ${s.experiencetype}</p>                                    
           <p>posted On: ${s.posteddate}</p>
@@ -64,7 +62,6 @@ float: right;
    </div>
  </c:forEach>
 </form>
-<%-- <h2> name: ${}</h2> --%>
 
 </body>
 </html>

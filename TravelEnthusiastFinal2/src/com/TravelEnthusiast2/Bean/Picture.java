@@ -2,25 +2,25 @@ package com.TravelEnthusiast2.Bean;
 
 public class Picture {
 		  private int id;
-		  private String title;
+		  private String pictureTitle;
 		  private String image;
 		  private String picture_of;
 		  private String photo_date;
 		  private boolean landmark;
-		  private String description;
+		  private String pictureDescription;
 		  
 		public Picture() {
 			super();
 		}
-		public Picture(int id, String title, String image, String picture_of, String photo_date, boolean landmark, String description) {
+		public Picture(int id, String pictureTitle, String image, String picture_of, String photo_date, boolean landmark, String pictureDescription) {
 			super();
 			this.id = id;
-			this.title = title;
+			this.pictureTitle = pictureTitle;
 			this.image = image;
 			this.picture_of = picture_of;
 			this.photo_date = photo_date;
 			this.landmark = landmark;
-			this.description = description;
+			this.pictureDescription = pictureDescription;
 		}
 		public int getId() {
 			return id;
@@ -28,11 +28,11 @@ public class Picture {
 		public void setId(int id) {
 			this.id = id;
 		}
-		public String getTitle() {
-			return title;
+		public String getPictureTitle() {
+			return pictureTitle;
 		}
-		public void setTitle(String title) {
-			this.title = title;
+		public void setPictureTitle(String pictureTitle) {
+			this.pictureTitle = pictureTitle;
 		}
 		public String getImage() {
 			return image;
@@ -58,10 +58,10 @@ public class Picture {
 		public void setLandmark(boolean landmark) {
 			this.landmark = landmark;
 		} 
-		public String getDescription() {
-			return description;
+		public String getPictureDescription() {
+			return pictureDescription;
 		}
-		public void setDescription(String description) {
-			this.description = description;
+		public void setPictureDescription(String pictureDescription) {
+			this.pictureDescription = pictureDescription;
 		}
 	}

@@ -42,7 +42,7 @@ public class PicturesDAOTest {
 	public final void AddPicture(Picture u, int b) {
 		PictureDAO a = new PictureDAO();
 		Picture c = new Picture();
-		c.setTitle("Test");
+		c.setPictureTitle("Test");
 		c.setLandmark(true);
 		c.setPicture_of("building");
 		c.setPhoto_date("2000-01-01");

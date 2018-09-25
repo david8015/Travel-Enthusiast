@@ -1,6 +1,5 @@
 package com.TravelEnthusiast2.Controller;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -152,21 +150,7 @@ public class HomeController {
 		mav.addObject("expList", expList);
 
 		return mav;
-	}
-
-//	mapping to event page -----------------WORKS DO NOT DELETE------------------
-//	@RequestMapping(value = "/eventpage", method = RequestMethod.GET)
-//	public ModelAndView goToEventsPage(@ModelAttribute("ExpData") ExpData x, @ModelAttribute ("userkey") User u) {
-//		EventDataDAO a = new EventDataDAO();
-//		List<EventData> eventByExpTitle = new ArrayList<EventData>();
-//		eventByExpTitle = a.getEventsByExperienceTitle(x.getTitle());
-//
-//		ModelAndView mav = new ModelAndView("event");
-//		mav.addObject("eventByExpTitle", eventByExpTitle);
-//		return mav;
-//	}
-	
-	
+	}	
 	
 	//mapping for event pages / comments
 	@RequestMapping(value = "/eventpage", method = RequestMethod.GET)
@@ -404,69 +388,44 @@ public class HomeController {
 	}
 	
 	
-	
-	
-	
-	
-//	                            WORKS DO NOT DELETE
-//	@RequestMapping(value = "/inputExperience", method = RequestMethod.POST)
-//	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e) {
-//		UserDAO a = new UserDAO();
-//		User user = new User();
-//		user = a.getUserByUserName(u.getUserName());
-//		
-//		ExperienceDAO expDAO = new ExperienceDAO();
-//		int b = expDAO.addExperience(e, user.getUserID());
-//	
-//			ModelAndView mav = new ModelAndView("addPicToExp");
-//			mav.addObject("expPrimaryID", b);
-//			return mav;
-//	}
-	
 	@RequestMapping(value = "/inputExperience", method = RequestMethod.POST)
-	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e, HttpServletRequest request) {
+	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e, @ModelAttribute("pic") Picture p) {
 		UserDAO a = new UserDAO();
 		User user = new User();
 		user = a.getUserByUserName(u.getUserName());
-		
+	
 		ExperienceDAO expDAO = new ExperienceDAO();
-		int b = expDAO.addExperience(e, user.getUserID());
-	
-			ModelAndView mav = new ModelAndView("addPicToExp");
-			HttpSession se = request.getSession();
-			se.setAttribute("expPriID", b);
-			mav.addObject("expPrimaryID", b);
-			return mav;
-	}
-	
-	
-	 
-	
-	@RequestMapping(value = "/inputPictureInfo", method = RequestMethod.POST)
-	public ModelAndView inputPictureInfo(HttpServletRequest request, @ModelAttribute("userkey") User u, @ModelAttribute("pic") Picture a) {
-		PictureDAO d = new PictureDAO();
+		int b = expDAO.addExperience(e, user.getUserID(), p);
 		
-		HttpSession se = request.getSession();
-		int b = (int) se.getAttribute("expPriID");
+		ExperienceDAO exp = new ExperienceDAO();
+		List<Experience> userExpList = new ArrayList<Experience>();
+		userExpList = exp.getExperienceByUser(u.getUserName());
 		
-		System.out.println("request param from session " + b);
-		
-		d.AddPicture(a, b);
-
-		ExpDataDAO getList = new ExpDataDAO();
-		List<ExpData> expList = new ArrayList<ExpData>();
-		expList = getList.getAllExperience();
-
-		ModelAndView mav = new ModelAndView("MainPage");
-		mav.addObject("expList", expList);
+		ModelAndView mav = new ModelAndView("mypage");
+		mav.addObject("userInfo", user);
+		mav.addObject("userExpList", userExpList);
 		return mav;
 	}
 	
 	
-
 	
 	
 	
+	
+	
+	@RequestMapping(value = "/addEventPage", method = RequestMethod.GET)
+	public ModelAndView addEvent(@ModelAttribute("userkey") User u) {
+		ModelAndView mav = new ModelAndView("addEvent");
+		return mav;
+	
+	}
+		
+		
+		
+	
+	
+	
+		
 	
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public ModelAndView contactPage(@ModelAttribute("userkey") User u) {
@@ -489,37 +448,3 @@ public class HomeController {
 	}
 
 }
-    //Another way of doing it
-//	@RequestMapping(value = "/user_info", method=RequestMethod.POST)
-//	public ModelAndView user_info(@RequestParam("username") String username, @RequestParam("password") String password ) 
-//	{
-//		
-//		ModelAndView mav = new ModelAndView("MainPage");
-//		
-//		mav.addObject("username",username);
-//		mav.addObject("password",password);
-//		
-//		
-//		return mav;
-//	}
-
-//saving info through the http request
-//@RequestMapping(value = "/login_info", method = RequestMethod.POST)
-//public ModelAndView login_info(@ModelAttribute("userkey") User u) {
-//User x = UserDAO.getUserByUserName(u.getUserName());
-//if (x == null) {
-//	return new ModelAndView("errorpage");
-//}
-//if (x.getPassword().equals(u.getPassword())) {
-//	if((x.getUserType() == 0)) {
-//		ModelAndView mav = new ModelAndView("MainPage");
-//		return mav;
-//	} else {
-//		ModelAndView mav = new ModelAndView("AdminPage");
-//		return mav;
-//	}
-//} else {
-//	ModelAndView mav = new ModelAndView("errorpage");
-//	return mav;
-//}
-//} 

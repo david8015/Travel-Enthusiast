@@ -32,11 +32,12 @@ public class PictureDAO {
 			while (rs.next()) {
 				Picture row = new Picture();
 				row.setId(rs.getInt("id"));
+				row.setPictureTitle(rs.getString("title"));
 				row.setImage(rs.getString("image"));
 				row.setPicture_of(rs.getString("picture_of"));
 				row.setPhoto_date(rs.getString("photo_date"));
 				row.setLandmark(rs.getBoolean("landmark"));
-				row.setDescription(rs.getString("description"));
+				row.setPictureDescription(rs.getString("description"));
 
 				allPictures.add(row);
 			}
@@ -63,7 +64,8 @@ public class PictureDAO {
 		// set connection to null (no connection)
 				Connection conn = null;
 				
-				System.out.println("test 1");
+				System.out.println("test");
+				
 				try {
 					// initiate oracle connection
 					conn = MYSQLConnection.getConnection();
@@ -73,12 +75,12 @@ public class PictureDAO {
 
 					PreparedStatement stmt = conn.prepareStatement(sql);
 
-					stmt.setString(1, u.getTitle());
+					stmt.setString(1, u.getPictureTitle());
 					stmt.setString(2, u.getImage());
 					stmt.setString(3, u.getPicture_of());
 					stmt.setString(4, u.getPhoto_date());
 					stmt.setBoolean(5, u.isLandmark());
-					stmt.setString(6, u.getDescription());
+					stmt.setString(6, u.getPictureDescription());
 					stmt.setInt(7, b);
 
 					a = stmt.executeUpdate();

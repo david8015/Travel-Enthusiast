@@ -4,40 +4,59 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>add experience</title>
+<title>Add Event</title>
 </head>
 <body>
-
-<div>
-	<%@include file="header.jsp" %>
-</div>
-	  
-<form method="post" action="inputExperience">
-	<h2 style="color:green; text-align:center; margin-top: 40px;">ADD AN EXPERIENCE:</h2>
+<form method="post" action="inputEvent">
+	<h2 style="color:green; text-align:center; margin-top: 40px;">ADD AN EVENT TO "EXPERIENCE TITLE"</h2>
 	<table style = "border:1px solid; margin: 0 auto; text-align:center; width: 600px; height: 100%">
 		<tr>
 			<td>Title :</td>
-			<td><input type="text" name="title" maxlength="100" placeholder="100 character maximum" autofocus required/></td>
+			<td><input type="text" name="eventTitle" maxlength="100" placeholder="100 character maximum" autofocus required/></td>
 		</tr>
 		<tr>
-			<td>Date of Experience :</td>
-			<td><input type="text" name="experiencedate" placeholder="YYYY-MM-DD format" required/></td>
-		</tr>
-		<tr>
-			<td>Type of Experience :</td>
-			<td><select name="experiencetype" required/>
-			        <option value="Beach - Relaxation">Beach - Relaxation</option>
-					<option value="Educational - Historical">Educational - Historical</option>
-					<option value="Fun - Partying">Fun - Partying</option>
-					<option value="Business">Business</option>
+			<td>Event Type :</td>
+			<td><select name="eventType" required/>
+			        <option value="Beach - Park">Beach - Park</option>
+					<option value="Club - Concert">Club - Concert</option>
+					<option value="Cultural - Educational">Cultural - Educational</option>
+					<option value="Family - Friends">Family - Friends</option>
+					<option value="Food">Food</option>
+					<option value="Hotel">Hotel</option>
 				</select>
-			</td>
+				</select>
+				</td>
 		</tr>
+		
 		<tr>
-			<td>Description :</td>
-			<td><textarea rows="6" maxlength="250" name = "description" placeholder="250 character maximum" style = "width: 250px;"></textarea></td>
+			<td>Airline : </td>
+			<td><input type="text" name="eventTitle" maxlength="100" placeholder="100 character maximum"/></td>
+			
+		</tr>
+		
+		
+		
+
+		<tr>
+			<td>Event Date :</td>
+			<td><input type="text" name="eventDate" placeholder="YYYY-MM-DD format" required/></td>
 		</tr>
 
+
+		<tr>
+			<td>Event Description :</td>
+			<td><textarea rows="6" maxlength="250" name = "eventDescription" placeholder="250 character maximum" style = "width: 250px;"></textarea></td>
+			<!-- <td><input type="text" name="description" required/></td> -->
+		</tr>
+<!-- 		<tr>
+			<td colspan = "2"><input type="submit" name="register" value = "submit"></td>
+		</tr> -->
+<!-- 	</table>
+</form>
+
+<form method="post" action="inputPictureInfo">
+	<h2 style="color:green; text-align:center; margin-top: 40px;">ADD PICTURE INFORMATION:</h2>
+	<table style = "border:1px solid; margin: 0 auto; text-align:center; width: 500px; height: 500px;"> -->
 		<tr>
 			<td>Picture Title :</td>
 			<td><input type="text" name="pictureTitle" maxlength="100" placeholder="100 character maximum" required/></td>
@@ -84,7 +103,6 @@
 		</tr>
 	</table>
 </form>
-
 
 </body>
 </html>
