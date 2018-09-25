@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,4 +71,92 @@ public class EventDataDAO {
 		// return the list of experiences
 		return eventByExpTitle;
 		}
+	
+	
+	public int addEventData(Event x, int expID, Picture p) {
+		int c = 0;
+		// set connection to null (no connection)
+		Connection conn = null;
+		int b = 0;
+
+		try {
+			// initiate oracle connection
+			conn = MYSQLConnection.getConnection();
+			// query the database
+			String sql = "insert into Event " + 
+					"(event_title, event_type, airline, airline_rating, hotel, hotel_rating, description, other_recommendations, event_date, experience_id) "
+					+ "values "
+					+ "(?,?,?,?,?,?,?,?,?,?)";
+
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			stmt.setString(1, x.getEventTitle());
+			stmt.setString(2, x.getEventType());
+			stmt.setString(3, x.getAirline());
+			stmt.setString(4, x.getAirlineRating());
+			stmt.setString(5, x.getHotel());
+			stmt.setString(6, x.getHotelRating());
+			stmt.setString(7, x.getEventDescription());
+			stmt.setString(8, x.getOtherRecommendations());
+			stmt.setString(9, x.getEventDate());
+			stmt.setInt(10, expID);
+
+			stmt.executeUpdate();	
+			
+			ResultSet rs = stmt.getGeneratedKeys();
+	            if(rs != null && rs.next()){
+	                b = rs.getInt(1);
+	            }
+			// capture exceptions
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// close connection
+			if (!conn.equals(null)) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		try {
+			// initiate oracle connection
+			conn = MYSQLConnection.getConnection();
+			// query the database
+			String sql = "insert into picture (title, image, picture_of, photo_date, landmark, description, event_id) values "
+					+ "(?,?,?,?,?,?,?)";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, p.getPictureTitle());
+			stmt.setString(2, p.getImage());
+			stmt.setString(3, p.getPicture_of());
+			stmt.setString(4, p.getPhoto_date());
+			stmt.setBoolean(5, p.isLandmark());
+			stmt.setString(6, p.getPictureDescription());
+			stmt.setInt(7, b);
+
+			c = stmt.executeUpdate();
+
+			// capture exceptions
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// close connection
+			if (!conn.equals(null)) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		return c;
+	}
+	
+	
 }

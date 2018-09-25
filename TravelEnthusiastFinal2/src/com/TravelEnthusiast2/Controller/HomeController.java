@@ -389,7 +389,8 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/inputExperience", method = RequestMethod.POST)
-	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e, @ModelAttribute("pic") Picture p) {
+	public ModelAndView inputExperience(@ModelAttribute("userkey") User u, @ModelAttribute("exp") Experience e, 
+			@ModelAttribute("pic") Picture p) {
 		UserDAO a = new UserDAO();
 		User user = new User();
 		user = a.getUserByUserName(u.getUserName());
@@ -407,19 +408,39 @@ public class HomeController {
 		return mav;
 	}
 	
-	
-	
-	
-	
-	
-	
 	@RequestMapping(value = "/addEventPage", method = RequestMethod.GET)
-	public ModelAndView addEvent(@ModelAttribute("userkey") User u) {
-		ModelAndView mav = new ModelAndView("addEvent");
-		return mav;
-	
-	}
+	public ModelAndView addEvent(@RequestParam("title") String title, @RequestParam("experienceID") int experienceID, 
+			@ModelAttribute("userkey") User u, HttpServletRequest request) {
+		//add the experience ID to the session level
+		HttpSession se = request.getSession();
+		se.setAttribute("experienceID", experienceID);
 		
+		//get the title of selected experience and pass it to new JSP page for referencing and printing
+		ModelAndView mav = new ModelAndView("addEvent");
+		mav.addObject("title", title);
+		return mav;
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/inputEvent", method = RequestMethod.POST)
+	public ModelAndView inputEvent(@ModelAttribute("userkey") User u, @ModelAttribute ("Event")Event e, 
+			@ModelAttribute ("picture") Picture p, HttpServletRequest request) {
+		
+		//get the experience ID from session attribute
+		HttpSession se = request.getSession();
+		int expID = (int) se.getAttribute("experienceID");
+		
+		//add event ( and picture of event) to the database
+		EventDataDAO a = new EventDataDAO();
+	    a.addEventData(e, expID, p);
+		
+	    ModelAndView mav = new ModelAndView("MainPage");
+		return mav;
+		
+	}
 		
 		
 	

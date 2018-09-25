@@ -11,8 +11,6 @@ public class Event {
 	private int eventId;
 	private String eventTitle;
 	private String eventType;
-	
-	
 	private String airline;
 	private String airlineRating;
 	private String hotel;

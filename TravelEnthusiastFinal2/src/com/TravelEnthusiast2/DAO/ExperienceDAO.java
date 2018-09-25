@@ -118,9 +118,6 @@ public class ExperienceDAO {
 		int c = 0;
 		// set connection to null (no connection)
 		Connection conn = null;
-//		ResultSet generatedExpPriKey = null;
-		
-//		List<Integer> a = new ArrayList<Integer>();
 		int b = 0;
 
 		try {
@@ -143,7 +140,6 @@ public class ExperienceDAO {
 			
 			ResultSet rs = stmt.getGeneratedKeys();
 	            if(rs != null && rs.next()){
-//	                System.out.println("Generated Experience Id: "+ rs.getInt(1));
 	                b = rs.getInt(1);
 	            }
 			// capture exceptions
@@ -180,9 +176,6 @@ public class ExperienceDAO {
 
 			c = stmt.executeUpdate();
 
-			
-			
-//			conn.commit();
 			// capture exceptions
 		} catch (Exception e) {
 			e.printStackTrace();

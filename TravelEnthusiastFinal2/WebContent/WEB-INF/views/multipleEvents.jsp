@@ -22,7 +22,7 @@
           <p>${s.eventPostedDate}</p>
           <hr>
           <!--Image -->
-          <img src="${s.eventImage}" alt="TRAVELES ENTHUSIAST PLACEHOLDER">
+          <img src="${s.eventImage}" alt="TRAVELER'S ENTHUSIAST PLACEHOLDER">
           <hr>
           <!--Content -->
           <p>${s.eventDescription}</p>

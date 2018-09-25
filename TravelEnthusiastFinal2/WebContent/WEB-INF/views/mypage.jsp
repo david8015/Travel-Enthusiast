@@ -52,7 +52,7 @@ float: right;
 	<div style = "border: 1px solid black; margin-top: 30px;">
 	
 	             <!--Passing experience ID to be included with picture input  -->
-          <h3>Title: ${s.title}<a style = "margin: 10px;" href="addEventPage?experienceID=${s.id}">Add event to Experience</a></h3>
+          <h3>Title: ${s.title}<a style = "margin: 10px;" href="addEventPage?experienceID=${s.id}&title=${s.title}">Add event to Experience</a></h3>
           <p>
             <h3>Date: ${s.experiencedate}</h3>
           </p>
