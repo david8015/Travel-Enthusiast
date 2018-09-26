@@ -24,7 +24,7 @@
 		</tr>
 		<tr>
 			<td><input type="submit" name="login" value = "login"></td>
-			<td><button><a style= "text-decoration: none; " href="registerPage">Register</a></button></td>
+			<td><button><a style= "text-decoration: none; color: black;" href="registerPage">Register</a></button></td>
 			
 			
 			<!-- <td><input type="button" name="register" value="register"></td> -->

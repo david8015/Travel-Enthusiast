@@ -1,6 +1,7 @@
 package com.TravelEnthusiast2.Bean;
 
 public class EventData {
+	private int    eventId;
 	private String userName;
 	private String eventTitle;
 	private String eventImage;
@@ -12,7 +13,7 @@ public class EventData {
 		super();
 	}
 
-	public EventData(String userName, String eventTitle, String eventImage, String eventPostedDate,
+	public EventData(int eventId, String userName, String eventTitle, String eventImage, String eventPostedDate,
 			String eventDescription, String eventDate) {
 		super();
 		this.userName = userName;
@@ -69,5 +70,19 @@ public class EventData {
 
 	public void setEventDate(String eventDate) {
 		this.eventDate = eventDate;
+	}
+
+	/**
+	 * @return the eventId
+	 */
+	public int getEventId() {
+		return eventId;
+	}
+
+	/**
+	 * @param eventId the eventId to set
+	 */
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
 	}
 }

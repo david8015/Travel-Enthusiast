@@ -2,17 +2,17 @@ package com.TravelEnthusiast2.Bean;
 
 public class Comments {
 	public String userName;
-	public String description;
+	public String commentsDescription;
 	public String postedDate;
 	
 	public Comments() {
 		super();
 	}
 
-	public Comments(String userName, String description, String postedDate) {
+	public Comments(String userName, String commentsDescription, String postedDate) {
 		super();
 		this.userName = userName;
-		this.description = description;
+		this.commentsDescription = commentsDescription;
 		this.postedDate = postedDate;
 	}
 
@@ -24,12 +24,12 @@ public class Comments {
 		this.userName = userName;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getCommentsDescription() {
+		return commentsDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCommentsDescription(String commentsDescription) {
+		this.commentsDescription = commentsDescription;
 	}
 
 	public String getPostedDate() {

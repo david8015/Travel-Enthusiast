@@ -18,6 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.TravelEnthusiast2.Bean.*;
 import com.TravelEnthusiast2.DAO.*;
 
+/**
+ * @author david
+ *
+ */
 @Controller
 @RequestMapping("/")
 @SessionAttributes("userkey")
@@ -85,11 +89,13 @@ public class HomeController {
 	}
 	
 
+	// SEACH LIST OF EXPERIENCES BY TITLE
 	@RequestMapping(value = "/search_Exp_By_Title", method = RequestMethod.POST)
 	public ModelAndView searchExpByTitle(@ModelAttribute("ExpData") ExpData x, @ModelAttribute ("userkey") User u) {
 		ExpDataDAO y = new ExpDataDAO();
 		List<ExpData> expTitleList = new ArrayList<ExpData>();
 		expTitleList = y.getExperienceByTitle(x.getTitle());
+		
 
 			if(expTitleList.size() == 0 || expTitleList == null) {
 				ModelAndView mav = new ModelAndView("MainPage");
@@ -112,6 +118,8 @@ public class HomeController {
 		}
 	}
 	
+	
+	//SEARCH LIST OF EXPERIENCES BY USERNAME
 	@RequestMapping(value = "/search_Exp_By_User", method = RequestMethod.POST)
 	public ModelAndView searchExpByUser(@ModelAttribute("ExpData") ExpData x, @ModelAttribute ("userkey") User u) {
 		ExpDataDAO y = new ExpDataDAO();
@@ -155,11 +163,24 @@ public class HomeController {
 	//mapping for event pages / comments
 	@RequestMapping(value = "/eventpage", method = RequestMethod.GET)
 	public ModelAndView getComments(@ModelAttribute("ExpData") ExpData x, 
-			@ModelAttribute("EventDisplay") EventData y, @ModelAttribute ("userkey") User u) {
+			@ModelAttribute("EventDisplay") EventData y, @ModelAttribute ("userkey") User u, HttpServletRequest request) {
 		
 		EventDataDAO a = new EventDataDAO();
 		List<EventData> eventByExpTitle = new ArrayList<EventData>();
 		eventByExpTitle = a.getEventsByExperienceTitle(x.getTitle());
+	
+		//Save event ID and title to session. Will be used later to save the comments for each event.
+		int eventID = 0;
+		String eventTitle = "";
+		
+		for (EventData s: eventByExpTitle) {
+			eventID = s.getEventId();
+			eventTitle = s.getEventTitle();
+		}
+		
+		HttpSession se = request.getSession();
+		se.setAttribute("eventID", eventID);
+		se.setAttribute("eventTitle", eventTitle);
 		
 		//if experiences do no have any events - return initial list of experiences with message
 		if (eventByExpTitle.size() == 0 || eventByExpTitle == null) {
@@ -197,7 +218,59 @@ public class HomeController {
 		}
 	}
 	
+
+//	ADD COMMENTS TO EVENT
+	@RequestMapping(value = "/addComment", method = RequestMethod.POST)
+	public ModelAndView addComment(@RequestParam("commentsDescription") String comment,
+			@ModelAttribute ("userkey") User u, HttpServletRequest request) {
+		int added =0;
+		String eventTitle = "";
+		
+//		GET ALL INFO OF CURRENT USER. TO GET USER ID.
+		UserDAO userDAO = new UserDAO();
+		User user = new User();
+		user = userDAO.getUserByUserName(u.getUserName());
+		
+
+//		grab event ID from session attribute (saved when mapped to event page from MainPage)
+		int eventID = 0;
+		
+		HttpSession se = request.getSession();
+		eventID = (int) se.getAttribute("eventID");
 	
+//      PASS INFO TO THE CommentsDAO TO ADD TO Comments TABLE.
+		CommentsDAO cdao = new CommentsDAO();
+		added = cdao.addComment(comment, eventID, user.getUserID());
+	
+//      IF COMMENT WAS ADDED RETURN TO Event PAGE WITH NEW COMMENT LISTED 
+//		(NAMED LISTS eventByExpTitle & commentsByExpTitle FOR DISPLAYING ON Event PAGE)
+		if (added > 0) {
+			eventTitle = (String) se.getAttribute("eventTitle");
+			CommentsDAO d = new CommentsDAO();
+			List<Comments> commentsByEventTitle = new ArrayList<Comments>();
+			commentsByEventTitle = d.getCommentsByEventTitle(eventTitle);
+
+			
+			EventDataDAO edDAO = new EventDataDAO();
+			List<EventData> ed = new ArrayList<EventData>();
+			ed = edDAO.getEventDataByEventID(eventID);
+			
+			ModelAndView mav = new ModelAndView("event");
+			mav.addObject("eventByExpTitle", ed);
+			mav.addObject("commentsByExpTitle", commentsByEventTitle);
+			
+			return mav;
+		}
+//		OTHERWISE PRINT ERROR MESSAGE
+		else
+			return null;
+	}
+		
+		
+    /**
+     * 
+     * @return registration page
+     */
 	@RequestMapping(value = "/registerPage", method = RequestMethod.GET)
 	public ModelAndView register() {
 		ModelAndView mav = new ModelAndView("register");
@@ -421,10 +494,6 @@ public class HomeController {
 		return mav;
 	}
 	
-	
-	
-	
-	
 	@RequestMapping(value = "/inputEvent", method = RequestMethod.POST)
 	public ModelAndView inputEvent(@ModelAttribute("userkey") User u, @ModelAttribute ("Event")Event e, 
 			@ModelAttribute ("picture") Picture p, HttpServletRequest request) {
@@ -432,7 +501,7 @@ public class HomeController {
 		//get the experience ID from session attribute
 		HttpSession se = request.getSession();
 		int expID = (int) se.getAttribute("experienceID");
-		
+	
 		//add event ( and picture of event) to the database
 		EventDataDAO a = new EventDataDAO();
 	    a.addEventData(e, expID, p);
@@ -441,11 +510,6 @@ public class HomeController {
 		return mav;
 		
 	}
-		
-		
-	
-	
-	
 		
 	
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)

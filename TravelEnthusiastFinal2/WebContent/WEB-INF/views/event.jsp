@@ -21,8 +21,8 @@ display:none;
 <%@include file="header.jsp" %>
 </div>
 
-
-<c:forEach items="${eventByExpTitle}" var="s">
+               <!--Events  -->
+	<c:forEach items="${eventByExpTitle}" var="s">
 		<div style = "border: 1px solid black; margin-top: 30px;">
           <!-- Title -->
           <h1>${s.eventTitle}</h1>
@@ -44,28 +44,25 @@ display:none;
    </div>
    
           <!-- Comments Form -->
+  <form method = post action = "addComment">
           <div style = "border: 1px solid black;">
             <h4>Leave a Comment:</h4>
-            <div>
-              <form>
-                <div>
-                  <textarea rows="5" maxlength="250" name = "description" style = "width: 200px;"></textarea>
+             <div>
+                  <textarea rows="5" maxlength="250" name = "commentsDescription" style = "width: 200px;"></textarea>
                 </div>
                 <button type="submit">Submit</button>
-              </form>
-            </div>
-          </div>    
-          
-
-	<c:forEach items = "${commentsByExpTitle}" var ="s">          
-          <div style = "border: 1px solid black;">
+	         </div>    
+  </form>        
+             <!-- Comments -->
+		<c:forEach items = "${commentsByExpTitle}" var ="s">          
+        	<div style = "border: 1px solid black;">
               <h4>Posted By: <span style = "color:green;">${s.userName}</span></h4>
               <h4>On: <span style = "color:green;">${s.postedDate}</span></h4>
-              <p style = "color:green;">${s.description}</P>
-            </div>
- 	</c:forEach> 
+              <p style = "color:green;">${s.commentsDescription}</P>
+        	</div>
+ 		</c:forEach> 
  
- </c:forEach>
+	</c:forEach>
        
 
 </body>

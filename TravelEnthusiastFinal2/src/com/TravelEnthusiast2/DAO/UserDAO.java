@@ -35,7 +35,6 @@ public class UserDAO{
 
 				s = new User(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"),
 						rs.getString("username"), rs.getString("password"), rs.getString("country"), rs.getInt("userType"));
-//					System.out.println("TEST 2");
 			}
 
 			// capture exceptions

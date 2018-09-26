@@ -14,6 +14,7 @@ public class ExpDataDAO {
 
 	public List<ExpData> getAllExperience() {
 		List<ExpData> allExp = new ArrayList<ExpData>();
+
 		// declare global variable sql
 		String sql = "select username, experience.title, image, date_format(posted_date, '%M %e, %Y') as 'posted date', "
 				+ " experience.description, date_format(experience_date, '%M %e, %Y') as 'experience Date'"
